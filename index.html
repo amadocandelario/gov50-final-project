@@ -93,7 +93,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="description" itemprop="description" content="My final project"/>
 
 
-  <meta name="article:author" content="Your Name Here"/>
+  <meta name="article:author" content="Amado Candelario"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Gov 50 Final Project"/>
@@ -110,7 +110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","author","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Gov 50 Final Project"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Your Name Here"]}]}]},{"type":"character","attributes":{},"value":["My final project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","author","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Gov 50 Final Project"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Amado Candelario"]}]}]},{"type":"character","attributes":{},"value":["My final project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -186,6 +186,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1258,15 +1259,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
           $(this).html(fn.shadowRoot.querySelector("sup"))
           $(this).id = fn.id
           fn.remove()
         }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -1465,7 +1472,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="index_files/header-attrs-2.17/header-attrs.js"></script>
+  <script src="index_files/header-attrs-2.16/header-attrs.js"></script>
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1486,7 +1493,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Gov 50 Final Project","description":"My final project","authors":[{"author":"Your Name Here","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}]}
+{"title":"Gov 50 Final Project","description":"My final project","authors":[{"author":"Amado Candelario","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1504,16 +1511,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-byline">
   
-  Your Name Here
+  Amado Candelario
   
 
 </div>
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to…</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Does racial identity implicate attitudes towards gay marriage? In this study, I plan to examine the extent to which differentiating racial identities have an impact on attitudes towards gay marriage. I hypothesize that white racial groups will tend to have more favorable attitudes toward gay marriage than other racial groups. I make this hypothesis because it reflects the social theory that non-white racial groups statistically tend to be more conservative on social issues because of their ties to tradition and religion. My sample is compromised of survey data from the CES Cumulative Common Content and the CES Policy Preferences. I will merge these datasets across the “case_id” variable. The explanatory variable of interest is racial identity and my outcome variable is attitudes on gay marriage. In the CCC survey the race variable is coded as “race” and in the PP survey the attitudes towards gay marriage is encoded under three variables “gaymarriage_scale” (measures attitude towards gay marriage), “gaymarriage_ban” (whether or not participant supports the banning of gay marriage), and “gaymarriage_legalize” (whether or not the participant supports the legalization of gay marriage). I will be using “gaymarriage_legalize” for this study because it analyses views of the legalization of gay marriage from the years 2012 to 2016, which allows me to see how perspectives on gay marriage have shifted overtime for participants of different racial identities. If I observe consistent behavior of people who identify as white having a more positive attitude towards gay marriage (meaning voting in favor of legalizing it), my hypothesis will be right. However, if I observe a minority ethnic group (Black, Latino, Asian, Native American) consistently having the the highest positive attitude towards gay marriage legalization, then my hypothesis will be wrong.</p>
+<ul>
+<li><p>CES Cumulative Common Content
+=&gt; Grouping variables (ethnicity, party)
+<a href="https://doi.org/10.7910/DVN/II2DB6" class="uri">https://doi.org/10.7910/DVN/II2DB6</a></p></li>
+<li><p>CES Policy Preferences (merge to cumulative by case_id)
+=&gt; Outcome variables (policy preferences; Gay marriage preference)
+<a href="https://doi.org/10.7910/DVN/OSXDQO" class="uri">https://doi.org/10.7910/DVN/OSXDQO</a></p></li>
+</ul>
+<p>Potential Confounding Variables to Pay attention to: Education, Political Ideology, Religion</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
